@@ -1,3 +1,4 @@
 # browser-notification-api
 
-[Testing MODE]
+WARNING: [Testing MODE, not for usage]
+
