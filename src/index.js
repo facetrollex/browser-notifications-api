@@ -11,14 +11,10 @@ class BrowserNotificationsAPI {
         permissions: {
             askOn: 'init', // Not implemented
             askOneTime: true,
-            onGranted: () => {
-                console.warn('Global On Granted');
-            },
-            onDenied: () => {
-                console.warn('Global On Denied');
-            },
+            disableOnActiveWindow: true,
+            onGranted: () => {},
+            onDenied: () => {},
         },
-        disableOnActiveWindow: true, //TODO: handle - Do not display notification once window is active, move to permissions
         notificationOptions: { // TODO: handle this
             title: 'Global Title',
             body: 'Global Body',
@@ -26,6 +22,20 @@ class BrowserNotificationsAPI {
     }
 
     constructor(config) {
+        this.#config = {
+            ...this.#config, // redundantly for now.
+            ...config, // redundantly for now.
+            permissions: {
+                ...this.#config.permissions,
+                ...config?.permissions
+            },
+            notificationOptions: {
+                ...this.#config.notificationOptions,
+                ...config?.notificationOptions
+            }
+        };
+
+
         isSupported = ('Notification' in window);
 
         this.#notificationPermissions = new NotificationPermissions(this.#config.permissions);
@@ -58,7 +68,7 @@ class BrowserNotificationsAPI {
             //Ask again?
         }
 
-        if (perm === PERMISSION_STATES.GRANTED) {
+        if (perm === PERMISSION_STATES.GRANTED && this.#notificationPermissions.canShow()) {
             notification = new Notification(title, options);
         }
 

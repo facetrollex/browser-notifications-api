@@ -7,9 +7,10 @@ const PERMISSION_STATES = Object.freeze({
 });
 
 class NotificationPermissions {
-    #permissionRequested = false;
+
     #config;
     #permission = PERMISSION_STATES.DEFAULT;
+    #permissionRequested = false;
 
     constructor(config) {
         this.#config = config;
@@ -22,6 +23,10 @@ class NotificationPermissions {
         return this.#permission;
     }
 
+    canShow() {
+        return (this.#config.disableOnActiveWindow && document.hidden) || !this.#config.disableOnActiveWindow;
+    }
+
     async askForPermissions() {
         if(this.#config.askOneTime && !this.#permissionRequested) {
             await this.#requestPermission();
@@ -30,7 +35,6 @@ class NotificationPermissions {
         } else {
             throw Error('Permissions already asked, state: ' + this.#permission);
         }
-
     }
 
     async #requestPermission() {
@@ -41,12 +45,11 @@ class NotificationPermissions {
     #handleEvents() {
         this.#permissionRequested = true;
 
-        //TODO make sure events is functions;
-        if(this.#permission === PERMISSION_STATES.GRANTED) {
+        if(this.#permission === PERMISSION_STATES.GRANTED && typeof this.#config.onGranted === 'function') {
             this.#config.onGranted();
         }
 
-        if(this.#permission === PERMISSION_STATES.DENIED) {
+        if(this.#permission === PERMISSION_STATES.DENIED && typeof this.#config.onDenied === 'function') {
             this.#config.onDenied();
         }
     }
