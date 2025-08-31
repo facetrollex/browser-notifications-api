@@ -12,12 +12,25 @@ class BrowserNotificationsAPI {
             askOn: 'init', // Not implemented
             askOneTime: true,
             disableOnActiveWindow: true,
-            onGranted: () => {},
-            onDenied: () => {},
+            onGranted: null, //on granted action
+            onDenied: null, //on denied action
         },
         notificationOptions: { // TODO: handle this
             title: 'Global Title',
             body: 'Global Body',
+            // data: { // secure context
+            //     name: 'Hello',
+            //     email: 'world',
+            // },
+            requireInteraction: false, // Limited availability, secure context
+            //renotify: false, // Limited availability, secure context, experimental, tag required
+            //actions:  [{action: 'test', title: 'test'}], //Todo: secure context required, experimental
+            //Actions are only supported for persistent notifications shown using ServiceWorkerRegistration.showNotification()
+            //tag: null,
+            onShow: null,
+            onClick: null,
+            onClose: null,
+            onError: null
         }
     }
 
@@ -59,6 +72,8 @@ class BrowserNotificationsAPI {
         const perm = this.#notificationPermissions.getPermission();
         let notification = null;
 
+        options = { ...this.#config.notificationOptions, ...options };
+
         if (perm === PERMISSION_STATES.DENIED) {
             throw Error('Notification permission denied');
         }
@@ -70,9 +85,28 @@ class BrowserNotificationsAPI {
 
         if (perm === PERMISSION_STATES.GRANTED && this.#notificationPermissions.canShow()) {
             notification = new Notification(title, options);
+            this.#handleNotificationEvents(notification, options);
         }
 
         return notification;
+    }
+
+    #handleNotificationEvents(Notification, options) {
+        if(typeof options.onClick === 'function') {
+            Notification.onclick = options.onClick;
+        }
+
+        if(typeof options.onShow === 'function') {
+            Notification.onshow = options.onShow;
+        }
+
+        if(typeof options.onClose === 'function') {
+            Notification.onclose = options.onClose;
+        }
+
+        if(typeof options.onError === 'function') {
+            Notification.onerror = options.onError;
+        }
     }
 }
 
