@@ -3,8 +3,6 @@
 import NotificationPermissions from './permissions'
 import { PERMISSION_STATES } from './permissions';
 
-let isSupported = false;
-
 class BrowserNotificationsAPI {
     #notificationPermissions;
     #config = {
@@ -12,21 +10,23 @@ class BrowserNotificationsAPI {
             askOn: 'init', // Not implemented
             askOneTime: true,
             disableOnActiveWindow: true,
-            onGranted: null, //on granted action
-            onDenied: null, //on denied action
+            onGranted: null,
+            onDenied: null
         },
-        notificationOptions: { // TODO: handle this
-            title: 'Global Title',
-            body: 'Global Body',
-            // data: { // secure context
-            //     name: 'Hello',
-            //     email: 'world',
-            // },
-            requireInteraction: false, // Limited availability, secure context
-            //renotify: false, // Limited availability, secure context, experimental, tag required
-            //actions:  [{action: 'test', title: 'test'}], //Todo: secure context required, experimental
+        notificationOptions: {
+            title: '',
+            body: '',
+            badge: null, // for mobile devices
+            data: null,
+            dir: 'auto', // 'ltr', 'rtl'.
+            icon: null,
+            image: null, // limited, experimental.
+            requireInteraction: false, // Limited availability
+            silent: null,
+            tag: '', //string
+            //renotify: false, // Limited availability, experimental, tag required
+            //actions:  [], // experimental, serviceWorker Required.
             //Actions are only supported for persistent notifications shown using ServiceWorkerRegistration.showNotification()
-            //tag: null,
             onShow: null,
             onClick: null,
             onClose: null,
@@ -48,16 +48,8 @@ class BrowserNotificationsAPI {
             }
         };
 
-
-        isSupported = ('Notification' in window);
-
+        this.#checkAvailability();
         this.#notificationPermissions = new NotificationPermissions(this.#config.permissions);
-
-        if (!isSupported) {
-            throw new Error('Notifications not supported by browser.');
-        }
-
-        return this;
     }
 
     get config() {
@@ -68,7 +60,7 @@ class BrowserNotificationsAPI {
         throw new Error('Config property is read-only.');
     }
 
-    showNotification(title, options) {
+    showNotification(options) {
         const perm = this.#notificationPermissions.getPermission();
         let notification = null;
 
@@ -84,7 +76,7 @@ class BrowserNotificationsAPI {
         }
 
         if (perm === PERMISSION_STATES.GRANTED && this.#notificationPermissions.canShow()) {
-            notification = new Notification(title, options);
+            notification = new Notification(options.title, options);
             this.#handleNotificationEvents(notification, options);
         }
 
@@ -106,6 +98,19 @@ class BrowserNotificationsAPI {
 
         if(typeof options.onError === 'function') {
             Notification.onerror = options.onError;
+        }
+    }
+
+    #checkAvailability() {
+        if(!window) {
+            throw new Error('Browser window not defined.');
+        }
+        if (!('Notification' in window)) {
+            throw new Error('Notifications not supported by browser.');
+        }
+
+        if(!window.isSecureContext) {
+            throw new Error('Secure Context Required, check for details: https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts');
         }
     }
 }
