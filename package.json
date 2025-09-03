@@ -2,7 +2,8 @@
   "name": "browser-notifications-api",
   "version": "1.0.7",
   "description": "A lightweight wrapper for the native Browser Notifications API. Simplifies permission requests and notification display with a consistent, cross-browser interface. Handles legacy API differences automatically. Perfect for PWAs, Alerts, and User Engagement features.",
-  "main": "src/index.js",
+  "browser": "src/index.js",
+  "main": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -22,12 +23,15 @@
     "alert",
     "cross-browser",
     "frontend"
-    "frontend"
   ],
-  "author": "Alexey Khamitsevich",
+  "author": "Alexey Khamitsevich <alexey.khamitsevich@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/facetrollex/browser-notifications-api/issues"
   },
-  "homepage": "https://github.com/facetrollex/browser-notifications-api#readme"
+  "homepage": "https://github.com/facetrollex/browser-notifications-api#readme",
+  "funding": {
+    "type": "individual",
+    "url": "TBD"
+  }
 }
