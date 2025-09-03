@@ -1,13 +1,13 @@
 'use strict';
 
 import NotificationPermissions from './permissions'
-import { PERMISSION_STATES } from './permissions';
+import { PERMISSION_STATES, PERMISSION_REQUEST_STRATEGIES } from './permissions';
 
 class BrowserNotificationsAPI {
     #notificationPermissions;
     #config = {
         permissions: {
-            askOn: 'init', // Not implemented
+            askOn: PERMISSION_REQUEST_STRATEGIES.ON_INIT, // Not implemented
             askOneTime: true,
             disableOnActiveWindow: true,
             onGranted: null,
@@ -67,12 +67,21 @@ class BrowserNotificationsAPI {
         options = { ...this.#config.notificationOptions, ...options };
 
         if (perm === PERMISSION_STATES.DENIED) {
-            throw Error('Notification permission denied');
+            throw Error('Notification permission denied.');
         }
 
         if (perm === PERMISSION_STATES.DEFAULT) {
-            //TODO:
-            //Ask again?
+            if(this.#config.permissions.askOn === PERMISSION_REQUEST_STRATEGIES.ON_FIRST_NOTIFICATION) {
+                this.askForPermission().then((permission) => {
+                    if(permission === PERMISSION_STATES.GRANTED) {
+                        this.showNotification(options);
+                    } else {
+                        throw Error('Notification permission not granted.')
+                    }
+                });
+            } else {
+                throw Error('Notification permission not granted.');
+            }
         }
 
         if (perm === PERMISSION_STATES.GRANTED && this.#notificationPermissions.canShow()) {
@@ -81,6 +90,10 @@ class BrowserNotificationsAPI {
         }
 
         return notification;
+    }
+
+    async askForPermission() {
+        return this.#notificationPermissions.askForPermissions();
     }
 
     #handleNotificationEvents(Notification, options) {

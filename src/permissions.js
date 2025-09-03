@@ -6,6 +6,12 @@ const PERMISSION_STATES = Object.freeze({
     GRANTED: 'granted'
 });
 
+const PERMISSION_REQUEST_STRATEGIES = Object.freeze({
+    ON_INIT: 'init',
+    ON_FIRST_NOTIFICATION: 'on_first_notification',
+    MANUAL: 'manual'
+});
+
 class NotificationPermissions {
 
     #config;
@@ -15,8 +21,9 @@ class NotificationPermissions {
     constructor(config) {
         this.#config = config;
 
-        // TODO: Temp Mode - ask on init
-        this.askForPermissions();
+        if(this.#config.askOn === PERMISSION_REQUEST_STRATEGIES.ON_INIT) {
+            this.askForPermissions();
+        }
     }
 
     getPermission() {
@@ -29,9 +36,9 @@ class NotificationPermissions {
 
     async askForPermissions() {
         if(this.#config.askOneTime && !this.#permissionRequested) {
-            await this.#requestPermission();
+            return await this.#requestPermission();
         } else if(!this.#config.askOneTime) {
-            await this.#requestPermission();
+            return await this.#requestPermission();
         } else {
             throw Error('Permissions already asked, state: ' + this.#permission);
         }
@@ -40,6 +47,7 @@ class NotificationPermissions {
     async #requestPermission() {
         this.#permission = await Notification.requestPermission();
         this.#handleEvents();
+        return this.#permission;
     }
 
     #handleEvents() {
@@ -56,4 +64,4 @@ class NotificationPermissions {
 }
 
 export default NotificationPermissions;
-export { PERMISSION_STATES };
+export { PERMISSION_STATES, PERMISSION_REQUEST_STRATEGIES };
