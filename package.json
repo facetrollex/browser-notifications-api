@@ -11,7 +11,18 @@
     "url": "git+https://github.com/facetrollex/browser-notifications-api.git"
   },
   "keywords": [
-    "browser-notification"
+    "notification",
+    "browser-notification",
+    "browser-notification-api",
+    "web-notification",
+    "desktop-notification",
+    "notification-api",
+    "push-notification",
+    "user-alert",
+    "alert",
+    "cross-browser",
+    "frontend"
+    "frontend"
   ],
   "author": "Alexey Khamitsevich",
   "license": "MIT",
