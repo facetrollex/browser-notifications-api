@@ -1,7 +1,7 @@
 {
   "name": "browser-notifications-api",
   "version": "1.0.8",
-  "description": "A lightweight wrapper for the native Browser Notifications API. Simplifies permission requests and notification display with a consistent, cross-browser interface. Handles legacy API differences automatically. Perfect for PWAs, Alerts, and User Engagement features.",
+  "description": "A lightweight wrapper for the native Browser Notifications API. Simplifies permission requests and notification display with a consistent, cross-browser interface. Perfect for PWAs, Alerts and User Engagement features.",
   "browser": "src/index.js",
   "main": "",
   "scripts": {
