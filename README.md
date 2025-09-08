@@ -71,6 +71,7 @@ Browser Compatibility -> [MDN](https://developer.mozilla.org/en-US/docs/Web/API/
 
 > [!IMPORTANT]
 > Secure Context is required, ref: [MDN](https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts)
+
 > Notification support is required
 
 ---
