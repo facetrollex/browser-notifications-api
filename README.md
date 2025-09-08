@@ -71,7 +71,8 @@ const configuration = {
 ## Author
 [Alexey Khamitsevich](alexey.khamitsevich@gmail.com)
 
-## [Licence](LICENSE.md)
+## Licence
+[MIT](LICENSE)
 
 
 > [!NOTE]
