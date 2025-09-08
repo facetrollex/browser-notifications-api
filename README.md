@@ -66,10 +66,11 @@ const configuration = {
 
 ---
 
-## [Browser Compatibility](https://developer.mozilla.org/en-US/docs/Web/API/Notification#browser_compatibility)
+## Browser Compatibility
+[https://developer.mozilla.org/en-US/docs/Web/API/Notification#browser_compatibility](https://developer.mozilla.org/en-US/docs/Web/API/Notification#browser_compatibility)
 
 ## Author
-[Alexey Khamitsevich](alexey.khamitsevich@gmail.com)
+[Alexey Khamitsevich](mailto:alexey.khamitsevich@gmail.com)
 
 ## Licence
 [MIT](LICENSE)
