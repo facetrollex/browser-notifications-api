@@ -29,6 +29,7 @@ let notificationPermission = await notificationsAPI.askForPermission();
 // Display Notification
 const customNotifcation = notificationsAPI.showNotification({
     // single notification config
+    // check notificationOptions as reference
 }); 
 ```
 
@@ -63,6 +64,14 @@ const configuration = {
 };
 ```
 
+---
+
+## [Browser Compatibility](https://developer.mozilla.org/en-US/docs/Web/API/Notification#browser_compatibility)
+
+## Author
+[Alexey Khamitsevich](alexey.khamitsevich@gmail.com)
+
+## [Licence](LICENSE.md)
 
 
 > [!NOTE]
