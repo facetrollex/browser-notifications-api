@@ -7,7 +7,7 @@ class BrowserNotificationsAPI {
     #notificationPermissions;
     #config = {
         permissions: {
-            askOn: PERMISSION_REQUEST_STRATEGIES.ON_INIT, // Not implemented
+            askOn: PERMISSION_REQUEST_STRATEGIES.ON_INIT,
             askOneTime: true,
             disableOnActiveWindow: true,
             onGranted: null,
@@ -118,6 +118,7 @@ class BrowserNotificationsAPI {
         if(!window) {
             throw new Error('Browser window not defined.');
         }
+
         if (!('Notification' in window)) {
             throw new Error('Notifications not supported by browser.');
         }
