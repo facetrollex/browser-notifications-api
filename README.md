@@ -1,5 +1,6 @@
 # Browser Notifications API package 
 [![npm version](https://badge.fury.io/js/browser-notifications-api.svg)](https://badge.fury.io/js/browser-notifications-api)
+![NPM License](https://img.shields.io/npm/l/browser-notifications-api)
 
 A lightweight wrapper for the native Browser Notifications API. Simplifies permission requests and notification display with a consistent, cross-browser interface. Perfect for PWAs, Alerts and User Engagement features.
 
