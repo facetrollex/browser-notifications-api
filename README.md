@@ -58,7 +58,7 @@ const configuration = {
         image: null, // URL of an image to be displayed as part of the notification
         requireInteraction: false, // boolean value indicating that a notification should remain active until the user clicks or dismisses it, rather than closing automatically
         silent: null, // https://developer.mozilla.org/en-US/docs/Web/API/Notification/silent
-        tag: '', // string, identifying tag for the notification
+        tag: '', // string, identifying tag for the notification, if empty 'N_timestamp' will be used by default
         onShow: null, // function, executed once notification is displayed
         onClick: null, // function, executed once user clicked on notification 
         onClose: null, // function, executed once user closed notification

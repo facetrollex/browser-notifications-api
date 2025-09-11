@@ -1,10 +1,12 @@
 'use strict';
 
-import NotificationPermissions from './permissions'
+import NotificationPermissions from './permissions';
+import NotificationManager from '../manager';
 import { PERMISSION_STATES, PERMISSION_REQUEST_STRATEGIES } from './permissions';
 
 class BrowserNotificationsAPI {
     #notificationPermissions;
+    #notificationManager;
     #config = {
         permissions: {
             askOn: PERMISSION_REQUEST_STRATEGIES.ON_INIT,
@@ -16,14 +18,14 @@ class BrowserNotificationsAPI {
         notificationOptions: {
             title: '',
             body: '',
-            badge: null, // for mobile devices
+            badge: '', // for mobile devices
             data: null,
             dir: 'auto', // 'ltr', 'rtl'.
-            icon: null,
+            icon: '',
             image: null, // limited, experimental.
             requireInteraction: false, // Limited availability
             silent: null,
-            tag: '', //string
+            tag: '', //string, if empty 'N_timestamp' will be used by default
             //renotify: false, // Limited availability, experimental, tag required
             //actions:  [], // experimental, serviceWorker Required.
             //Actions are only supported for persistent notifications shown using ServiceWorkerRegistration.showNotification()
@@ -50,6 +52,7 @@ class BrowserNotificationsAPI {
 
         this.#checkAvailability();
         this.#notificationPermissions = new NotificationPermissions(this.#config.permissions);
+        this.#notificationManager = new NotificationManager();
     }
 
     get config() {
@@ -85,7 +88,10 @@ class BrowserNotificationsAPI {
         }
 
         if (perm === PERMISSION_STATES.GRANTED && this.#notificationPermissions.canShow()) {
+            options.tag = this.#notificationManager.updateTag(options.tag);
+
             notification = new Notification(options.title, options);
+
             this.#handleNotificationEvents(notification, options);
         }
 
