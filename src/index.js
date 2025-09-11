@@ -1,7 +1,7 @@
 'use strict';
 
 import NotificationPermissions from './permissions';
-import NotificationManager from '../manager';
+import NotificationManager from './manager';
 import { PERMISSION_STATES, PERMISSION_REQUEST_STRATEGIES } from './permissions';
 
 class BrowserNotificationsAPI {
