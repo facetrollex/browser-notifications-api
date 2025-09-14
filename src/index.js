@@ -92,6 +92,8 @@ class BrowserNotificationsAPI {
 
             notification = new Notification(options.title, options);
 
+            this.#notificationManager.logNotification(notification);
+
             this.#handleNotificationEvents(notification, options);
         }
 
@@ -100,6 +102,14 @@ class BrowserNotificationsAPI {
 
     async askForPermission() {
         return this.#notificationPermissions.askForPermissions();
+    }
+
+    getAllNotifications() {
+        return this.#notificationManager.getAllNotifications();
+    }
+
+    getNotificationByTag(tag) {
+        return this.#notificationManager.getNotificationByTag(tag);
     }
 
     #handleNotificationEvents(Notification, options) {

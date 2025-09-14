@@ -22,18 +22,28 @@ import BrowserNotificationsAPI from 'browser-notifications-api';
 
 const notificationsAPI = new BrowserNotificationsAPI({
     // global configuration object
-    // default values will be used for any
-    // missed option
+    // default value(s) will be used for any missed option
 });
 
 // Manual Request for Permissions
 let notificationPermission = await notificationsAPI.askForPermission();
 
-// Display Notification
+// Display Notification, return Notification instance
 const customNotifcation = notificationsAPI.showNotification({
     // single notification config
     // check notificationOptions as reference
-}); 
+});
+
+const allNotificationsSent = notificationsAPI.getAllNotifications();
+//return object with all notifications with format: 'tag' -> [Notification, ... ]
+// { 
+//   N_1757860285783: [Notification],
+//   N_1757860291945: [Notification],
+//   test:[Notification, Notification, Notification]
+// }
+
+const notificationsByTag = notificationsAPI.getNotificationByTag('tag');
+// return all notifications (array) related to tag, 'null' in case of empty result.
 ```
 
 ### Configuration
