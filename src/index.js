@@ -112,6 +112,10 @@ class BrowserNotificationsAPI {
         return this.#notificationManager.getNotificationByTag(tag);
     }
 
+    permissionRequestButton(options) {
+        return this.#notificationPermissions.permissionRequestBtn(options);
+    }
+
     #handleNotificationEvents(Notification, options) {
         if(typeof options.onClick === 'function') {
             Notification.onclick = options.onClick;

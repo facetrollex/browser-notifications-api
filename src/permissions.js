@@ -44,6 +44,69 @@ class NotificationPermissions {
         }
     }
 
+    permissionRequestBtn(options) {
+        const defaultOptions = {
+            text: 'Enable Notifications',
+            id: null,
+            classList: [],
+            attributes: {
+                type: 'button'
+            },
+            appendTo: null,
+            removeOnGranted: true,
+            onClick: null
+        };
+
+        options = {
+            ...defaultOptions,
+            ...options,
+            attributes: {...defaultOptions.attributes, ...options.attributes}
+        };
+
+        const btn = document.createElement('button');
+
+        btn.textContent = options.text;
+
+        if(options.id) {
+            btn.id = options.id;
+        }
+
+        if(options.classList) {
+            options.classList.forEach((className) => {
+                btn.classList.add(className);
+            })
+        }
+
+        Object.keys(options.attributes).forEach((key) => {
+            btn.setAttribute(key, options.attributes[key]);
+        });
+
+        btn.addEventListener('click', async () => {
+            const perm = await this.askForPermissions();
+
+            if(typeof options.onClick === 'function') {
+                options.onClick();
+            }
+
+            if(perm === PERMISSION_STATES.GRANTED && options.removeOnGranted) {
+                btn.remove();
+            }
+        });
+
+        if (options.appendTo) {
+            if(options.appendTo instanceof HTMLElement) {
+                options.appendTo.appendChild(btn);
+            } else if(typeof options.appendTo === 'string') {
+                const container = document.getElementById(options.appendTo);
+                if(container) {
+                    container.appendChild(btn);
+                }
+            }
+        }
+
+        return btn;
+    }
+
     async #requestPermission() {
         this.#permission = await Notification.requestPermission();
         this.#handleEvents();

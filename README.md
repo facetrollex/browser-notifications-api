@@ -28,6 +28,11 @@ const notificationsAPI = new BrowserNotificationsAPI({
 // Manual Request for Permissions
 let notificationPermission = await notificationsAPI.askForPermission();
 
+// Built-in button for Request Notification, return HTMLElement
+let btnEl = notificationsAPI.permissionRequestButton({
+    //btn options
+});
+
 // Display Notification, return Notification instance
 const customNotifcation = notificationsAPI.showNotification({
     // single notification config
@@ -74,6 +79,19 @@ const configuration = {
         onClose: null, // function, executed once user closed notification
         onError: null // function, executed on error
     }
+};
+
+// Default Built-In button configuration
+const builtInButtonOptions = {
+    text: 'Enable Notifications', // Button text
+    id: null, // Button ID
+    classList: [], //list of classes
+    attributes: { // list of attributes
+        type: 'button'
+    },
+    appendTo: null, // ID or HTMLElement
+    removeOnGranted: true, // remove button from DOM once permission is granted
+    onClick: null, //custom onClick, triggers after permission request.
 };
 ```
 
