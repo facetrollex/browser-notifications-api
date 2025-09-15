@@ -28,7 +28,7 @@ const notificationsAPI = new BrowserNotificationsAPI({
 // Manual Request for Permissions
 let notificationPermission = await notificationsAPI.askForPermission();
 
-// Built-in button for Request Notification, return HTMLElement
+// Built-in button for request Notification permissions, return HTMLElement
 let btnEl = notificationsAPI.permissionRequestButton({
     //btn options
 });
