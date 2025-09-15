@@ -97,10 +97,7 @@ class NotificationPermissions {
             if(options.appendTo instanceof HTMLElement) {
                 options.appendTo.appendChild(btn);
             } else if(typeof options.appendTo === 'string') {
-                const container = document.getElementById(options.appendTo);
-                if(container) {
-                    container.appendChild(btn);
-                }
+                document.getElementById(options.appendTo)?.appendChild(btn);
             }
         }
 
