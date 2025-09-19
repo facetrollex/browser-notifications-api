@@ -20,10 +20,14 @@ npm i browser-notifications-api
 ```javascript
 import BrowserNotificationsAPI from 'browser-notifications-api';
 
+// Create Instance
 const notificationsAPI = new BrowserNotificationsAPI({
     // global configuration object
     // default value(s) will be used for any missed option
 });
+
+// Check global configuration
+console.log(notificationsAPI.config);
 
 // Manual Request for Permissions
 let notificationPermission = await notificationsAPI.askForPermission();
